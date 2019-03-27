@@ -1,0 +1,65 @@
+<script>
+    function computerPlay() {
+        let rand = Math.random();
+        let weapon;
+        (rand <= (1 / 3)) ? weapon = "rock" : ((rand <= (2 / 3)) ? weapon = "paper" : weapon = "scissors");
+        return weapon;
+    }
+    function capitalize(word) {
+        let firstLetter = word.slice(0, 1);
+        let remainder = word.slice(1, word.length);
+        return firstLetter.toUpperCase() + remainder.toLowerCase();
+    }
+    function playRound(userChoice, compChoice) {
+        let result;
+        userChoice = userChoice.toLowerCase();
+
+        if (compChoice == userChoice) {
+            result = "Tie round! " + capitalize(userChoice) + "'s all around!";
+        } else if (userChoice == "rock"){
+            (compChoice == "scissors") ? result = "You win the round! " + capitalize(userChoice) + " beats scissors." : 
+            result = "You lose the round! " + capitalize(userChoice)  + " is enveloped by paper." ;
+        } else if (userChoice == "paper") {
+            (compChoice == "rock") ? result = "You win the round! " + capitalize(userChoice) + " beats rock." : 
+            result = "You lose the round! " + capitalize(userChoice)  + " is sliced by scissors." ;
+        } else if (userChoice == "scissors") {
+            (compChoice == "paper") ? result = "You win the round! " + capitalize(userChoice) + " beats paper." : 
+            result = "You lose the round! " + capitalize(userChoice)  + " are pummeled by rock." ;
+        } else {
+            result = "Not a great choice for this particular game..."
+        }
+        
+        return result;
+    }
+    function Game() {
+        let i;
+        let userWins = 0;
+        let compWins = 0;
+        let numTies = 0;
+
+        for (i = 0; i < 5; i++) {
+            const compChoice = computerPlay();
+            const userChoice = prompt("Choose your weapon: ");
+            let result = playRound(userChoice, compChoice);
+            console.log(result);
+            if(result.slice(0,7)=="You win") {
+                userWins++;
+            } else if (result.slice(0,7)=="You los") {
+                compWins++;
+            } else if (result.slice(0,7)=="Tie rou") {
+                numTies++;
+            } 
+        }
+        if (userWins > compWins) {
+            console.log("You won the game! Final Score: " + userWins + " to " + compWins + " with " + numTies + " ties");
+        } else if (compWins > userWins) {
+            console.log("You lost the game. Final Score: " + userWins + " to " + compWins + " with " + numTies + " ties");
+        } else {
+            console.log("T'was a stalemate in the end! Final Score: " + userWins + " to " + compWins + " with " + numTies + " ties")
+        }
+
+    }
+    // console.log(computerPlay());
+    // console.log(playRPS("rock",computerPlay()));
+    Game();
+</script>
