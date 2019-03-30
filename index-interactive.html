@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Rock, Paper, Scissors</title>
+</head>
+
+<body>
+    <h1>Rock, Paper, Scissors</h1>
+
+    <p>Choose your weapon!</p>
+    <button id="rock">Rock</button>
+    <button id="paper">Paper</button>
+    <button id="scissors">Scissors</button>
+
+    <div class="results">
+        <p>Here are the results of your battle</p>
+    </div>
+
+    <script>
+        //return 'rock', 'paper', or 'scissors' randomly
+        function computerPlay() {
+            let rand = Math.random();
+            let weapon;
+            (rand <= (1 / 3)) ? weapon = "rock" : ((rand <= (2 / 3)) ? weapon = "paper" : weapon = "scissors");
+            return weapon;
+        }
+        // determine winner of single round given user and computer choices
+        function playRound(e) {
+            if (e.srcElement.tagName !== 'BUTTON') return;
+
+            let result;
+            const userChoice = e.target.id;
+            const compChoice = computerPlay();
+
+            if (compChoice == userChoice) {
+                result = "Tie round! " + capitalize(userChoice) + "'s all around!";
+            } else if (userChoice == "rock") {
+                (compChoice == "scissors") ? result = "You win the round! " + capitalize(userChoice) + " beats scissors." :
+                    result = "You lose the round! " + capitalize(userChoice) + " is enveloped by paper.";
+            } else if (userChoice == "paper") {
+                (compChoice == "rock") ? result = "You win the round! " + capitalize(userChoice) + " beats rock." :
+                    result = "You lose the round! " + capitalize(userChoice) + " is sliced by scissors.";
+            } else if (userChoice == "scissors") {
+                (compChoice == "paper") ? result = "You win the round! " + capitalize(userChoice) + " beats paper." :
+                    result = "You lose the round! " + capitalize(userChoice) + " are pummeled by rock.";
+            }
+
+            if (result.slice(0, 7) == "You win") {
+                userWins++;
+                numRounds++;
+            } else if (result.slice(0, 7) == "You los") {
+                compWins++;
+                numRounds++;
+            } else if (result.slice(0, 7) == "Tie rou") {
+                numTies++;
+                numRounds++;
+            }
+
+            const p = document.createElement('p');
+            p.textContent = result;
+            div.appendChild(p);
+
+            console.log(result);
+            if (numRounds >= 5) {
+                let gameResult = "";
+                if (userWins > compWins) {
+                    gameResult = "You won the battle! Final Score: " + userWins + " to " + compWins + " with " + numTies + " ties";
+                } else if (compWins > userWins) {
+                    gameResult = "You lost the game. Final Score: " + userWins + " to " + compWins + " with " + numTies + " ties";
+                } else {
+                    gameResult = "T'was a stalemate in the end! Final Score: " + userWins + " to " + compWins + " with " + numTies + " ties";
+                }
+
+                const h2 = document.createElement('h2');
+                h2.textContent = gameResult;
+                div.appendChild(h2);
+
+                numRounds = 0;
+                userWins = 0;
+                compWins = 0;
+                numTies = 0;
+            }
+        }
+            //capitalize first letter of word for display to console
+            function capitalize(word) {
+                let firstLetter = word.slice(0, 1);
+                let remainder = word.slice(1, word.length);
+                return firstLetter.toUpperCase() + remainder.toLowerCase();
+            }
+            //Play a game of 5 rounds
+            let userWins = 0;
+            let compWins = 0;
+            let numTies = 0;
+            let numRounds = 0;
+            const div = document.querySelector('.results');
+            window.addEventListener('click', playRound);
+
+
+    </script>
+
+
+</body>
+
+</html>
